@@ -6,11 +6,14 @@
     "isomorphic-fetch": "^2.2.1",
     "next": "^2.0.0-beta.36",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-apollo": "^1.4.3",
+    "react-dom": "^15.4.2",
+    "react-dropzone-s3-uploader": "^1.0.0",
+    "react-progressbar.js": "^0.2.0"
   },
   "devDependencies": {
     "babel-eslint": "7.0.0",
-    "standard": "8.4.0"
+    "standard": "^10.0.2"
   },
   "standard": {
     "parser": "babel-eslint"

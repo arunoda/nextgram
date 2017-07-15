@@ -1,15 +1,17 @@
 import React from 'react'
 import Router from 'next/router'
+import DropzoneS3Uploader from 'react-dropzone-s3-uploader'
+import { Circle } from 'react-progressbar.js'
 import Modal from '../components/modal'
 import 'isomorphic-fetch'
 
+const Display = ({progress, uploadedFiles}) => (
+  <div>{
+    progress ? <Circle progress={progress / 100} />
+    : !uploadedFiles.length ? <p>Upload Some Files</p>
+    : <p>Processing Files</p>
+  }</div>)
 export default class extends React.Component {
-  static async getInitialProps () {
-    return {
-      photos: await getGifNames(),
-    }
-  }
-
   constructor (props) {
     super(props)
     this.onKeyDown = this.onKeyDown.bind(this)
@@ -41,18 +43,19 @@ export default class extends React.Component {
   }
 
   render () {
-    const { url, photos } = this.props
-
+    // const { url, photos } = this.props
     return (
-      <div className='list'>
-        {
+      <DropzoneS3Uploader s3Url='http://np-dicom-images.s3-us-east-2.amazonaws.com'>
+        <Display />
+        {/*  <div className='list'>
+          {
           url.query.photoId &&
             <Modal
               id={url.query.photoId}
               onDismiss={() => this.dismissModal()}
             />
         }
-        {
+          {
           photos.map((id) => (
             <div key={id} className='photo'>
               <a
@@ -65,7 +68,7 @@ export default class extends React.Component {
             </div>
           ))
         }
-        <style jsx>{`
+          <style jsx>{`
           .list {
             padding: 50px;
             text-align: center;
@@ -96,21 +99,8 @@ export default class extends React.Component {
             borderColor: blue;
           }
         `}</style>
-      </div>
+        </div>  */}
+      </DropzoneS3Uploader>
     )
   }
-}
-
-
-async function getGithubProfileIds() {
-  const res = await fetch('https://api.github.com/users')
-  const result = await res.json()
-  return result.map((info) => info.id)
-}
-
-async function getGifNames() {
-  const res = await fetch('https://api.gfycat.com/v1/gfycats/trending?count=20')
-  const result = await res.json()
-
-  return result.gfycats.map((info) => info.gfyName)
 }
